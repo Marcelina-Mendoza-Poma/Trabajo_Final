@@ -227,10 +227,10 @@ if (formSubirRecurso) {
             else if (fileExtension === 'pdf') tipoRecurso = 'pdf';
             else if (['mp4', 'mov', 'avi'].includes(fileExtension)) tipoRecurso = 'video';
 
-            const { error: dbError } = await supabaseClient.from('recursos').insert({
+           const { error: dbError } = await supabaseClient.from('recursos').insert({
                 titulo: resourceName,
                 url_archivo: publicUrlData.publicUrl,
-                semana_id: parseInt(semanaId, 10),
+                semana_id: parseInt(semanaId, 10), // <-- CLAVE FORÁNEA POTENCIAL
                 tipo_recurso: tipoRecurso,
             });
             if (dbError) throw dbError;
@@ -292,4 +292,5 @@ async function descargarRecurso(url, filename) {
 // --- INICIO DE LA APLICACIÓN ---
 window.addEventListener('DOMContentLoaded', () => {
     cargarRecursos();
+
 });
