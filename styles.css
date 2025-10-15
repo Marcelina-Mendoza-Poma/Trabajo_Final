@@ -1,11 +1,13 @@
-:root {
-  --primary-bg: #0F0F23; /* Fondo muy oscuro */
-  --secondary-bg: #221F3C;
-  --main-purple: #6E57E0; /* Tu morado principal - muy vivo */
-  --light-purple: #9A5DEB; /* Un morado más claro para gradientes */
-  --accent-color: #FF5A5F; /* Un coral vibrante para contraste y CTA */
-  --text-primary: #FFFFFF;
-  --text-secondary: #E0E0E0; /* Texto secundario más claro */
+:root{
+  --bg:#0f1020;
+  --card:#181a2e;
+  --text:#e9e9f1;
+  --muted:#a8acc9;
+  --accent:#ff6ba8;
+  --accent-2:#8a7dff;
+  --glass: rgba(255,255,255,.06);
+  --radius: 20px;
+  --shadow: 0 10px 30px rgba(0,0,0,.25);
 }
 .light{
   --bg:#faf7fd;
@@ -17,10 +19,15 @@
 }
 *{box-sizing:border-box}
 html,body{height:100%}
-body {
-    background: radial-gradient(circle at 15% 15%, var(--secondary-bg) 0%, var(--primary-bg) 70%);
-    color: var(--text-primary);
-    min-height: 100vh; /* Asegura que el gradiente ocupe toda la altura */
+body{
+  font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  margin:0;
+  background:
+    radial-gradient(1200px 800px at 80% -10%, #ff9ac3 0, transparent 60%),
+    radial-gradient(1000px 600px at -10% 20%, #8a7dff55 0, transparent 60%),
+    var(--bg);
+  color:var(--text);
+  scroll-behavior:smooth;
 }
 a{color:var(--accent);text-decoration:none}
 .container{width:min(1120px, 92%); margin:0 auto}
@@ -229,60 +236,4 @@ footer{padding:26px 0 40px; color:var(--muted)}
   justify-content: flex-end;
   gap: 10px;
   margin-top: 20px;
-}
-.logo-container {
-    display: flex; /* Para alinear la imagen y el texto "LINA" */
-    align-items: center; /* Centrar verticalmente */
-    background: linear-gradient(45deg, #6E57E0, #9A5DEB); /* Gradiente morado vibrante */
-    padding: 10px 20px;
-    border-radius: 15px; /* Bordes más suaves */
-    box-shadow: 0 5px 15px rgba(110, 87, 224, 0.4); /* Sombra para que "flote" */
-    margin-left: 20px; /* Separación de la esquina */
-}
-
-.logo-image {
-    width: 40px; /* Tamaño de tu logo */
-    height: 40px;
-    margin-right: 10px; /* Espacio entre la imagen y el texto */
-    /* Si tu logo es un SVG o PNG con transparencia, ¡genial! */
-}
-
-.logo-text {
-    color: white; /* Color de texto para "LINA" */
-    font-family: 'Poppins', sans-serif; /* Usamos la fuente de encabezados */
-    font-weight: 700;
-    font-size: 1.5em;
-}
-/* Botones de llamada a la acción */
-.project-button, .skills-button { /* Asumiendo que ambos tienen estas clases */
-    background: linear-gradient(45deg, var(--main-purple), var(--light-purple));
-    color: white;
-    padding: 12px 28px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(110, 87, 224, 0.4);
-}
-
-.project-button:hover, .skills-button:hover {
-    background: linear-gradient(45deg, var(--accent-color), #FF7D82); /* Coral al hacer hover */
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(255, 90, 95, 0.6);
-}
-
-/* Las tarjetas de "20+ Proyectos", "5 Años", "100% Enfoque UX" */
-.stats-card { /* Asumiendo una clase para estas tarjetas */
-    background: rgba(34, 31, 60, 0.7); /* Fondo semi-transparente del secundario */
-    backdrop-filter: blur(8px); /* Efecto de cristal esmerilado */
-    border-radius: 20px;
-    padding: 20px;
-    text-align: center;
-    border: 1px solid rgba(110, 87, 224, 0.3); /* Borde sutil morado */
-    transition: transform 0.3s ease, border-color 0.3s ease;
-}
-
-.stats-card:hover {
-    transform: translateY(-5px); /* Se levanta un poco al pasar el ratón */
-    border-color: var(--main-purple); /* El borde se ilumina */
 }
