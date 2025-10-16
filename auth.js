@@ -17,21 +17,52 @@ if (signupForm) {
 
         formMsg.textContent = "Registrando...";
 
-        const { data, error } = await supabaseClient.auth.signUp({
+        // 1. Registrar el usuario en auth.users
+        const { data: userData, error: signUpError } = await supabaseClient.auth.signUp({
             email: email,
             password: password,
+            options: {
+                // 🔑 ¡CLAVE DE LA SOLUCIÓN!
+                // Redirige al usuario a la página principal después de la confirmación por correo.
+                // Asegúrate de usar la URL completa de tu sitio si no estás en la raíz.
+                emailRedirectTo: window.location.origin + '/index.html',
+            }
         });
 
-        if (error) {
-            formMsg.textContent = `Error: ${error.message}`;
-            console.error(error);
+        if (signUpError) {
+            formMsg.textContent = `Error: ${signUpError.message}`;
+            console.error(signUpError);
+            return;
+        }
+
+        // Si el registro es exitoso y se creó un usuario (data.user existe)
+        if (userData.user) {
+            // 2. Insertar el perfil y el rol por defecto en la tabla 'profiles'
+            // NOTA: Esto asume que tienes la tabla 'profiles' con una política RLS que lo permite.
+            const { error: profileError } = await supabaseClient
+                .from('profiles')
+                .insert([
+                    {
+                        id: userData.user.id,
+                        email: userData.user.email,
+                        role: 'usuario',
+                    },
+                ]);
+            
+            if (profileError) {
+                // Aunque el perfil no se haya creado, la cuenta de auth.users sí lo hizo.
+                console.error('Error al insertar el perfil:', profileError);
+                formMsg.textContent = "Registro exitoso, pero falló la creación del perfil. Revisa la consola.";
+            } else {
+                formMsg.textContent = "¡Registro exitoso! Revisa tu correo para confirmar tu cuenta y serás redirigido.";
+                signupForm.reset();
+            }
         } else {
-            formMsg.textContent = "¡Registro exitoso! Revisa tu correo para confirmar tu cuenta.";
-            signupForm.reset();
+             // Este caso puede ocurrir si el usuario ya existe.
+             formMsg.textContent = "Revisa tu correo. Si ya tienes cuenta, intenta iniciar sesión.";
         }
     });
 }
-
 
 // --- 3. LÓGICA DE INICIO DE SESIÓN CON CONTRASEÑA ---
 const loginForm = document.getElementById('login-form');
@@ -102,4 +133,5 @@ if (googleLoginBtn) {
         }
         // Si no hay error, Supabase se encarga de redirigir al usuario automáticamente
     });
+
 }
